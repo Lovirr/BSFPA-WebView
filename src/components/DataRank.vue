@@ -41,8 +41,8 @@ let data = [
   { value: 100, itemStyle: { color: '#5470C6' } },
   { value: 222, itemStyle: { color: '#91CC75' } },
   { value: 333, itemStyle: { color: '#FAC858' } },
-  { value: 890, itemStyle: { color: '#73C0DE' } },
-  { value: 590, itemStyle: { color: '#EE6666' } }
+  { value: 890, itemStyle: { color: '#EE6666' } },
+  { value: 590, itemStyle: { color: '#73C0DE' } }
 ]
 
 const distribution = ref(null)
@@ -53,8 +53,8 @@ function update(attr) {
     { value: data[0], itemStyle: { color: '#5470C6' } },
     { value: data[1], itemStyle: { color: '#91CC75' } },
     { value: data[2], itemStyle: { color: '#FAC858' } },
-    { value: data[3], itemStyle: { color: '#73C0DE' } },
-    { value: data[4], itemStyle: { color: '#EE6666' } }
+    { value: data[3], itemStyle: { color: '#EE6666' } },
+    { value: data[4], itemStyle: { color: '#73C0DE' } }
   ]
   distribution.value.clear()
   distribution.value.setOption(option)
@@ -79,6 +79,9 @@ const option = {
     {
       data: data,
       type: 'bar',
+      itemStyle: {
+        barBorderRadius: 3
+      }
     }
   ]
 }
