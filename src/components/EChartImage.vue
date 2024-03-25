@@ -15,11 +15,13 @@ import {
   GridComponent,
   DatasetComponent,
   TransformComponent,
-  LegendComponent
+  LegendComponent,
+  DataZoomComponent
 } from 'echarts/components'
 import VChart from 'vue-echarts'
 
 import data from '@/static/data.json'
+
 
 // 注册必须的组件
 use([
@@ -32,7 +34,8 @@ use([
   LabelLayout,
   UniversalTransition,
   LineChart,
-  LegendComponent
+  LegendComponent,
+  DataZoomComponent
 ])
 
 defineProps({
@@ -41,119 +44,151 @@ defineProps({
     required: true
   }
 })
+
 defineExpose({
   update
 })
 
 const image = ref(null)
-const option = {
-  animationDuration: 10000,
+
+var option = {
+  animationDuration: 3000,
   dataset: [
     {
       id: 'dataset_raw',
-      source: data
+      source: data,
     },
     {
       id: 'dataset_filtered',
       fromDatasetId: 'dataset_raw',
       transform: {
         type: 'filter',
-        config: {
-          and: [
-            { dimension: 'task', '=': 'gender' },
-            { dimension: 'attr', '=': 'race' },
-            { dimension: 'property', '=': '2' }
-          ]
-        }
+        config: { dimension: 'fun_name', '=': 'f1' }
       }
-    }
+    },
   ],
+
   title: {
-    text: '在性别分类模型上推断黑人的准确率'
+    text: '在不同函数上的收敛曲线对比图'
   },
+
   tooltip: {
     trigger: 'axis'
   },
   legend: {
-    data: ['准确率', 'p值']
+    data: ['BSFPA', 'FPA', 'PSO', 'GA', 'FA']
   },
   xAxis: {
     type: 'category',
-    name: '轮次'
+    name: 'Iteration'
   },
   yAxis: {
-    name: '准确率'
+    // name: 'Fitness Value'
   },
+  dataZoom: [{
+    type: 'slider',
+    show: true,
+    xAxisIndex: [0],
+    start: 0,
+    end: 100
+  },
+  {
+    type: 'slider',
+    show: true,
+    yAxisIndex: [0],
+    left: '93%',
+    start: 0,
+    end: 100
+  },
+  ],
   grid: {
-    right: 140
+    right: 100
   },
   series: [
     {
-      type: 'line',
+      name: 'BSFPA',
       datasetId: 'dataset_filtered',
+      type: 'line',
+      smooth: true,
       showSymbol: false,
-      name: '准确率',
-      endLabel: {
-        show: true,
-        formatter: function (params) {
-          return params.value[4] + '%'
-        }
-      },
-      labelLayout: {
-        moveOverlap: 'shiftY'
-      },
       emphasis: {
         focus: 'series'
       },
       encode: {
         x: 'iteration',
-        y: 'test',
-        label: ['test acc'],
-        itemName: 'iteration',
-        tooltip: ['test acc']
+        y: 'MFPA',
       }
     },
     {
-      type: 'line',
+      name: 'FPA',
       datasetId: 'dataset_filtered',
+      type: 'line',
+      smooth: true,
       showSymbol: false,
-      name: 'p值',
-      endLabel: {
-        show: true,
-        formatter: function (params) {
-          return params.value[5] + '%'
-        }
-      },
-      labelLayout: {
-        moveOverlap: 'shiftY'
-      },
       emphasis: {
         focus: 'series'
       },
       encode: {
         x: 'iteration',
-        y: 'p-test',
-        label: ['p-test'],
-        itemName: 'iteration',
-        tooltip: ['p-test']
+        y: 'FPA'
+      }
+    },
+    {
+      name: 'PSO',
+      datasetId: 'dataset_filtered',
+      type: 'line',
+      smooth: true,
+      showSymbol: false,
+      emphasis: {
+        focus: 'series'
+      },
+      encode: {
+        x: 'iteration',
+        y: 'PSO'
+      }
+    },
+    {
+      name: 'GA',
+      datasetId: 'dataset_filtered',
+      type: 'line',
+      smooth: true,
+      showSymbol: false,
+      emphasis: {
+        focus: 'series'
+      },
+      encode: {
+        x: 'iteration',
+        y: 'GA'
+      }
+    },
+    {
+      name: 'FA',
+      datasetId: 'dataset_filtered',
+      type: 'line',
+      smooth: true,
+      showSymbol: false,
+      emphasis: {
+        focus: 'series'
+      },
+      encode: {
+        x: 'iteration',
+        y: 'FA'
       }
     }
   ]
-}
-function update(task, attr, property, tittle) {
-  option.dataset[1].transform.config.and = [
-    { dimension: 'task', '=': task },
-    { dimension: 'attr', '=': attr },
-    { dimension: 'property', '=': property }
-  ]
-  option.title.text = tittle
+};
+
+function update(attr) {
+  option.dataset[1].transform.config =
+    { dimension: 'fun_name', '=': attr }
+  option.title.text = '在函数 ' + attr + ' 上的收敛曲线对比图'
   image.value.clear()
   image.value.setOption(option)
 }
 </script>
 
 <template>
-  <v-chart :option="option" style="height: 600px" :loading="load" ref="image" />
+  <v-chart :option="option" style="height: 540px" :loading="load" ref="image" />
 </template>
 
 <style scoped></style>

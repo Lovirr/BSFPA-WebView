@@ -1,5 +1,5 @@
 <script setup>
-import num from '@/static/num-data.json'
+import num from '@/static/model-info.json'
 
 defineProps({
   load: {
@@ -7,15 +7,17 @@ defineProps({
     required: true
   }
 })
+
 defineExpose({
   update
 })
 
-let data = num['gender-race-0']
+let data = num['f1']
 
-function update(task, attr, property) {
-  data = num[`${task}-${attr}-${property}`]
+function update(attr) {
+  data = num[`${attr}`]
 }
+
 </script>
 
 <template>
@@ -23,29 +25,41 @@ function update(task, attr, property) {
     <n-card title="模型参数" style="height: 300px">
       <n-grid>
         <n-gi span="12">
-          <n-statistic label="训练集" tabular-nums>
-            <n-number-animation :from="0" :to="data[0]" />
-            <template #suffix> 组 </template>
+          <n-statistic label="训练函数" tabular-nums>
+            <n-number-animation :from="0" :to=23 />
+            <template #suffix> 个 </template>
           </n-statistic>
         </n-gi>
         <n-gi span="12">
-          <n-statistic label="测试集" tabular-nums>
-            <n-number-animation :from="0" :to="data[1]" />
-            <template #suffix> 组 </template>
+          <n-statistic label="测试算法" tabular-nums>
+            <n-number-animation :from="0" :to="5" />
+            <template #suffix> 种 </template>
           </n-statistic>
         </n-gi>
       </n-grid>
       <n-grid>
         <n-gi span="12">
-          <n-statistic label="攻击者有标签数据" tabular-nums>
-            <n-number-animation :from="0" :to="data[2]" />
+          <n-statistic label="迭代次数" tabular-nums>
+            <n-number-animation :from="0" :to="data[0]" />
+            <template #suffix> 次 </template>
+          </n-statistic>
+        </n-gi>
+        <n-gi span="12">
+          <n-statistic label="种群数" tabular-nums>
+            <n-number-animation :from="0" :to="20" />
             <template #suffix> 组 </template>
           </n-statistic>
         </n-gi>
         <n-gi span="12">
-          <n-statistic label="攻击者无标签数据" tabular-nums>
-            <n-number-animation :from="0" :to="data[3]" />
-            <template #suffix> 组 </template>
+          <n-statistic label="函数维度" tabular-nums>
+            <n-number-animation :from="0" :to="data[1]" />
+            <template #suffix> 维 </template>
+          </n-statistic>
+        </n-gi>
+        <n-gi span="12">
+          <n-statistic label="独立运行" tabular-nums>
+            <n-number-animation :from="0" :to="30" />
+            <template #suffix> 次 </template>
           </n-statistic>
         </n-gi>
       </n-grid>

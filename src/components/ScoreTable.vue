@@ -1,7 +1,10 @@
 <script setup>
 import { Info16Regular } from '@vicons/fluent'
 
-import score from '@/static/score-data.json'
+import time from '@/static/time.json'
+import best from '@/static/best.json'
+import worst from '@/static/worst.json'
+import average from '@/static/average.json'
 
 defineProps({
   load: {
@@ -13,10 +16,16 @@ defineExpose({
   update
 })
 
-let data = score['gender-race-0']
+let data_time = time['f1']
+let data_best = best['f1']
+let data_worst = worst['f1']
+let data_average = average['f1']
 
-function update(task, attr, property) {
-  data = score[`${task}-${attr}-${property}`]
+function update(attr) {
+  data_time = time[`${attr}`]
+  data_best = best[`${attr}`]
+  data_worst = worst[`${attr}`]
+  data_average = average[`${attr}`]
 }
 </script>
 
@@ -29,137 +38,93 @@ function update(task, attr, property) {
             <th></th>
             <th>
               <div style="display: flex; justify-content: center; align-items: center">
-                精确率
+                最优值
                 <n-popover trigger="hover">
                   <template #trigger>
                     <n-icon size="20">
                       <Info16Regular />
                     </n-icon>
                   </template>
-                  <p>被分为正例的示例中实际为正例的比例</p>
-                  <p>公式:TP/(TP+FP) TP:真正例 FP:假正例</p>
+                  <p>独立运行30次结果中最接近函数最优解的值</p>
                 </n-popover>
               </div>
             </th>
             <th>
               <div style="display: flex; justify-content: center; align-items: center">
-                召回率
+                最差值
                 <n-popover trigger="hover">
                   <template #trigger>
                     <n-icon size="20">
                       <Info16Regular />
                     </n-icon>
                   </template>
-                  <p>实际为正的样本中，被分类器判定为正例的样本所占的比例</p>
-                  <p>公式:TP/(TP+FN) TP:真正例 FN:假反例</p>
+                  <p>独立运行30次结果中最远离函数最优解的值</p>
                 </n-popover>
               </div>
             </th>
             <th>
               <div style="display: flex; justify-content: center; align-items: center">
-                F1分数
+                平均值
                 <n-popover trigger="hover">
                   <template #trigger>
                     <n-icon size="20">
                       <Info16Regular />
                     </n-icon>
                   </template>
-                  <p>精确率和召回率的调和平均数</p>
+                  <p>独立运行30次的适应度平均值</p>
                 </n-popover>
               </div>
             </th>
-            <th>样本数</th>
+            <th>
+              <div style="display: flex; justify-content: center; align-items: center">
+                耗时
+                <n-popover trigger="hover">
+                  <template #trigger>
+                    <n-icon size="20">
+                      <Info16Regular />
+                    </n-icon>
+                  </template>
+                  <p>求解问题所消耗的时间</p>
+                </n-popover>
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>0.0</td>
-            <td>{{ data[0] }}</td>
-            <td>{{ data[1] }}</td>
-            <td>{{ data[2] }}</td>
-            <td>{{ data[3] }}</td>
+            <td>BSFPA</td>
+            <td>{{ data_best[0] }}</td>
+            <td>{{ data_worst[0] }}</td>
+            <td>{{ data_average[0] }}</td>
+            <td>{{ data_time[0] }}</td>
           </tr>
           <tr>
-            <td>1.0</td>
-            <td>{{ data[4] }}</td>
-            <td>{{ data[5] }}</td>
-            <td>{{ data[6] }}</td>
-            <td>{{ data[7] }}</td>
+            <td>FPA</td>
+            <td>{{ data_best[1] }}</td>
+            <td>{{ data_worst[1] }}</td>
+            <td>{{ data_average[1] }}</td>
+            <td>{{ data_time[1] }}</td>
           </tr>
           <tr>
-            <td>
-              <div style="display: flex; justify-content: center; align-items: center">
-                微平均
-                <n-popover trigger="hover">
-                  <template #trigger>
-                    <n-icon size="20">
-                      <Info16Regular />
-                    </n-icon>
-                  </template>
-                  <p>不分类别进行统计建立全局混淆矩阵，然后计算相应的指标</p>
-                </n-popover>
-              </div>
-            </td>
-            <td>{{ data[8] }}</td>
-            <td>{{ data[9] }}</td>
-            <td>{{ data[10] }}</td>
-            <td>{{ data[11] }}</td>
+            <td>PSO</td>
+            <td>{{ data_best[2] }}</td>
+            <td>{{ data_worst[2] }}</td>
+            <td>{{ data_average[2] }}</td>
+            <td>{{ data_time[2] }}</td>
           </tr>
           <tr>
-            <td>
-              <div style="display: flex; justify-content: center; align-items: center">
-                宏平均
-                <n-popover trigger="hover">
-                  <template #trigger>
-                    <n-icon size="20">
-                      <Info16Regular />
-                    </n-icon>
-                  </template>
-                  <p>每个类型的P、R的算术平均</p>
-                </n-popover>
-              </div>
-            </td>
-            <td>{{ data[12] }}</td>
-            <td>{{ data[13] }}</td>
-            <td>{{ data[14] }}</td>
-            <td>{{ data[15] }}</td>
+            <td>GA</td>
+            <td>{{ data_best[3] }}</td>
+            <td>{{ data_worst[3] }}</td>
+            <td>{{ data_average[3] }}</td>
+            <td>{{ data_time[3] }}</td>
           </tr>
           <tr>
-            <td>
-              <div style="display: flex; justify-content: center; align-items: center">
-                权重平均
-                <n-popover trigger="hover">
-                  <template #trigger>
-                    <n-icon size="20">
-                      <Info16Regular />
-                    </n-icon>
-                  </template>
-                  <p>每一个类别样本数量在所有类别的样本总数的占比作为权重</p>
-                </n-popover>
-              </div>
-            </td>
-            <td>{{ data[16] }}</td>
-            <td>{{ data[17] }}</td>
-            <td>{{ data[18] }}</td>
-            <td>{{ data[19] }}</td>
-          </tr>
-          <tr>
-            <td>
-              <div style="display: flex; justify-content: center; align-items: center">
-                AUC
-                <n-popover trigger="hover">
-                  <template #trigger>
-                    <n-icon size="20">
-                      <Info16Regular />
-                    </n-icon>
-                  </template>
-                  <p>越高分类效果越好，最高为1</p>
-                </n-popover>
-              </div>
-            </td>
-            <td colspan="4">
-              {{ data[20] }}
-            </td>
+            <td>FA</td>
+            <td>{{ data_best[4] }}</td>
+            <td>{{ data_worst[4] }}</td>
+            <td>{{ data_average[4] }}</td>
+            <td>{{ data_time[4] }}</td>
           </tr>
         </tbody>
       </n-table>
