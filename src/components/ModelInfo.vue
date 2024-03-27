@@ -26,7 +26,7 @@ function update(attr) {
       <n-grid>
         <n-gi span="12">
           <n-statistic label="训练函数" tabular-nums>
-            <n-number-animation :from="0" :to=23 />
+            <n-number-animation :from="0" :to=20 />
             <template #suffix> 个 </template>
           </n-statistic>
         </n-gi>

@@ -63,10 +63,7 @@ const options = [
       { label: 'Function17', value: 'f17' },
       { label: 'Function18', value: 'f18' },
       { label: 'Function19', value: 'f19' },
-      { label: 'Function20', value: 'f20' },
-      { label: 'Function21', value: 'f21' },
-      { label: 'Function22', value: 'f22' },
-      { label: 'Function23', value: 'f23' }
+      { label: 'Function20', value: 'f20' }
 ]
 
 const showModal = ref(false)
