@@ -19,6 +19,10 @@ const emit = defineEmits(['update'])
 //   }
 // }
 
+function openWebpage() {
+  window.open('functions.html', '_blank');
+}
+
 function changeModel() {
   if (!attrs.value) {
     showModal_403.value = true
@@ -80,7 +84,8 @@ const message_403 = ref('')
     </div>
     <br /><br />
     <div style="display: flex; justify-content: flex-end">
-      <n-button @click="changeModel()" type="primary">开始测试</n-button>
+      <n-button @click="changeModel()" type="primary">开始测试</n-button>&nbsp;&nbsp;&nbsp;
+      <n-button @click="openWebpage()" type="primary">查看函数信息</n-button>&nbsp;&nbsp;&nbsp;
     </div>
   </n-card>
   <n-modal v-model:show="showModal">
